@@ -1,0 +1,84 @@
+{% load static %}
+
+<html>
+<link rel="stylesheet" href="{% static 'css/loginRegister.css' %}">
+<title>codeNX</title>
+<br>
+<br>
+<div class="cont">
+    <form action="/home/" method="post">
+        {% csrf_token %}
+        <div class="form sign-in">
+            <h2>Welcome to codeNX</h2>
+            <label>
+                <span>Username or Email</span>
+                <input name="emailOrUsername" type="text" required/>
+            </label>
+            <label>
+                <span>Password</span>
+                <input name="password" type="password" required/>
+            </label>
+            <!-- <p class="forgot-pass">Forgot password?</p> -->
+            {% if messages %}
+            <ul class="messages">
+                {% for message in messages %}
+                <li  {% if message.tags  %} class=" {{ message.tags }} " {% endif %}> <b style="margin-left:200px;color:red">{{ message }}</b> </li>
+                {% endfor %}
+            </ul>
+            {% endif %}
+
+            <button name="buttonName" value="login" type="submit" class="submit">Sign In</button>
+        </div>
+    </form>
+    <div class="sub-cont">
+        <div class="img">
+            <div class="img__text m--up">
+
+                <h3>Don't have an account? Please Sign up!<h3>
+            </div>
+            <div class="img__text m--in">
+
+                <h3>If you already has an account, just sign in.<h3>
+            </div>
+            <div class="img__btn">
+                <span class="m--up">Sign Up</span>
+                <span class="m--in">Sign In</span>
+            </div>
+        </div>
+        <form action="/home/" method="post" name="register">
+            {% csrf_token %}
+            <div class="form sign-up">
+                <h2>Create your Account</h2>
+                <label>
+                    <span>Name</span>
+                    <input name="username" type="text" required/>
+                </label>
+                <label>
+                    <span>Email</span>
+                    <input name="email" type="email" required/>
+                </label>
+                <label>
+                    <span>Password</span>
+                    <input name="password" type="password" required/>
+                </label>
+                {% if messages %}
+            <ul class="messages">
+                {% for message in messages %}
+                <li  {% if message.tags %} class=" {{ message.tags }} " {% endif %}> <b style="margin-left:200px;color:red;">{{ message }}</b> </li>
+                {% endfor %}
+            </ul>
+            {% endif %}
+                <button name="buttonName" value="signUp" type="submit" class="submit">Sign Up</button>
+
+            </div>
+        </form>
+    </div>
+</div>
+
+<script>
+    document.querySelector('.img__btn').addEventListener('click', function () {
+        document.querySelector('.cont').classList.toggle('s--signup');
+    });
+</script>
+
+</html>

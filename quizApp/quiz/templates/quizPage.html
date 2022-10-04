@@ -1,0 +1,108 @@
+{% load static %}
+
+<!DOCTYPE html>
+<html lang="en">
+<link rel="stylesheet" href="{% static 'css/app.css' %}">
+<link rel="stylesheet" href="{% static 'css/game.css' %}">
+
+<head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <meta http-equiv="X-UA-Compatible" content="ie=edge" />
+    <title>Quick Quiz - Play</title>
+    <link rel="stylesheet" href="app.css" />
+    <link rel="stylesheet" href="game.css" />
+</head>
+<style>
+    div.sticky {
+      position: -webkit-sticky;
+      position: sticky;
+      top: 0;
+      background-color: yellow;
+      padding: 10px;
+      font-size: 10px;
+    }
+    </style>
+<body>
+    <form action="/quizSubmit/" method="post">
+        {% csrf_token %}
+    <div class="sticky">
+        <h3 id="timeLeft"></h3>
+        <h3 id="end"></h3>
+        <button  type="submit" class="choice-prefix" name="quizId" value={{quizId}}>Submit Quiz</button>
+    </div>
+        
+        {% for question, choice in questions.items %} 
+        <div class="container">
+            <div id="game" class="justify-center flex-column">
+                <h3>{{ forloop.counter }}) {{question}}</h3>
+                <input type="hidden" name="question{{ forloop.counter0 }}"
+                value="{{ question }}"  />
+                <div class="choice-container">
+                    <p class="choice-prefix">A</p>
+                    <input style="margin-left:10px;" type="radio" name={{ forloop.counter0 }} value="1">
+                    <p class="choice-text">{{choice.0}}</p>
+                </div>
+                <div class="choice-container">
+                    <p class="choice-prefix">B</p>
+                    <input style="margin-left:10px;" type="radio" name={{ forloop.counter0 }} value="2">
+                    <p class="choice-text">{{choice.1}}</p>
+                </div>
+                <div class="choice-container">
+                    <p class="choice-prefix">C</p>
+                    <input style="margin-left:10px;" type="radio" name={{ forloop.counter0 }} value="3">
+                    <p class="choice-text">{{choice.2}}</p>
+                </div>
+                <div class="choice-container">
+                    <p class="choice-prefix">D</p>
+                    <input style="margin-left:10px;" type="radio" name={{ forloop.counter0 }} value="4">
+                    <p class="choice-text">{{choice.3}}</p>
+                </div>
+                
+                
+            </div>
+        </div>
+        {% endfor %}
+
+     
+        
+    </form>
+    
+
+
+    <script>
+        // The data/time we want to countdown to
+        var duration = parseInt("{{duration}}");
+        var countDownDate = new Date().getTime()+(duration/60)*60*60*1000;
+        // countDownDate.setTime(countDownDate+60*1000)
+        console.log(typeof(duration));
+        
+        // Run myfunc every second
+        var myfunc = setInterval(function() {
+    
+        var now = new Date().getTime();
+        // console.log(now);
+
+        var timeleft = countDownDate - now;
+            
+        // Calculating the days, hours, minutes and seconds left
+        var hours = Math.floor((timeleft % (1000 * 60 * 60 * 24)) / (1000 * 60 * 60));
+        var minutes = Math.floor((timeleft % (1000 * 60 * 60)) / (1000 * 60));
+        var seconds = Math.floor((timeleft % (1000 * 60)) / 1000);
+            
+        document.getElementById("timeLeft").innerHTML = "TimeLeft: " + hours + "h " + minutes + "m " + seconds + "s"
+        // Display the message when countdown is over
+        if (timeleft < 0) {
+            clearInterval(myfunc);
+            document.getElementById("timeLeft").innerHTML = "" 
+            document.getElementById("end").innerHTML = "TIME UP!!";
+            location.href = '{% url "quizSubmit" %}'
+        }
+        }, 1000);
+        </script>
+
+
+
+</body>
+
+</html>

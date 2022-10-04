@@ -1,0 +1,172 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+    <style>
+        * {
+            box-sizing: border-box;
+        }
+
+        input[type=text],
+        select,
+        textarea {
+            width: 96%;
+            padding: 12px;
+            margin-right: 10px;
+            border: 1px solid #ccc;
+            border-radius: 4px;
+            resize: vertical;
+        }
+
+        input[type=number],
+        select,
+        textarea {
+            width: 96%;
+            padding: 12px;
+            margin-right: 10px;
+            border: 1px solid #ccc;
+            border-radius: 4px;
+            resize: vertical;
+        }
+
+        label {
+            padding: 12px 12px 12px 0;
+            display: inline-block;
+        }
+
+        input[type=submit] {
+            background-color: #04AA6D;
+            color: white;
+            padding: 12px 20px;
+            border: none;
+            border-radius: 4px;
+            cursor: pointer;
+            float: right;
+        }
+
+        input[type=submit]:hover {
+            background-color: #45a049;
+        }
+
+        .container {
+            border-radius: 5px;
+            background-color: #f2f2f2;
+            padding: 20px;
+        }
+
+        .col-25 {
+            float: left;
+            width: 25%;
+            margin-top: 6px;
+        }
+
+        .col-75 {
+            float: left;
+            width: 75%;
+            margin-top: 6px;
+        }
+
+        /* Clear floats after the columns */
+        .row:after {
+            content: "";
+            display: table;
+            clear: both;
+        }
+
+        /* Responsive layout - when the screen is less than 600px wide, make the two columns stack on top of each other instead of next to each other */
+        @media screen and (max-width: 600px) {
+
+            .col-25,
+            .col-75,
+            input[type=submit] {
+                width: 100%;
+                margin-top: 0;
+            }
+        }
+    </style>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
+
+</head>
+
+<body>
+
+    <h2>Create a New Quiz</h2>
+
+
+    <div class="container">
+        <form action="/createQuiz/" method="post">
+            {% csrf_token %}
+            <div class="row">
+                <div class="col-25">
+                    <b for="name">Quiz Name</b>
+                    <p style="color:red">(name should be unique)</p>
+                </div>
+                <div class="col-75">
+                    <input type="text" name="quizName" required>
+                </div>
+            </div>
+            <div class="row">
+                <div class="col-25">
+                    <b for="time">Duration of quiz</b>
+                    <p style="color:red">(in minutes)</p>
+                </div>
+                <div class="col-75">
+                    <input type="number" placeholder="Must be a number" name="duration" required>
+                </div>
+            </div>
+
+            <br>
+            <div class="row">
+                <input type="submit" value="Create Quiz">
+            </div>
+
+
+            {% if messages %}
+            <ul class="messages">
+                {% for message in messages %}
+                <li  {% if message.tags  %} class=" {{ message.tags }} " {% endif %}> <b style="margin-left:500px;color:red;">{{ message }}</b> </li>
+                {% endfor %}
+            </ul>
+            {% endif %}
+            <button style="  background-color: #04AA6D;
+color: white;
+padding: 12px 20px;
+border: none;
+border-radius: 4px;
+cursor: pointer;
+margin-bottom:10px;" class="add_form_field">Add New Field &nbsp;
+                <span style="font-size:16px; font-weight:bold;">+ </span>
+            </button>
+            <div class="container1">
+            </div>
+
+        </form>
+    </div>
+
+
+    <script>$(document).ready(function () {
+            var max_fields = 10;
+            var wrapper = $(".container1");
+            var add_button = $(".add_form_field");
+
+            var x = 0;
+            var se = new Set();
+            $(add_button).click(function (e) {
+                e.preventDefault();
+                x++;
+                $(wrapper).prepend(
+                    '<div style="margin-bottom:20px;"><input  type="text" placeholder="Question" name="q' + x + '" required/><input  type="text" placeholder="Option 1" name="a' + x + '" required/><input  type="text" placeholder="Option 2" name="b' + x + '" required/><input  type="text" placeholder="Option 3" name="c' + x + '" required/><input  type="text" placeholder="Option 4" name="d' + x + '" required/><input placeholder="Correct Option (type 1,2,3 or 4)" type="number" name="ans' + x + '" min="1" max="4"  required/><a href="#" class="delete" >Delete</a></div>');
+                //add input box);
+
+            });
+
+            $(wrapper).on("click", ".delete", function (e) {
+                e.preventDefault();
+                console.log($(this).parent('div').text());
+                $(this).parent('div').remove();
+
+            })
+        });</script>
+</body>
+
+</html>

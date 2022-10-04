@@ -1,0 +1,40 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+    <style>body {
+        display: flex;
+        align-items: center;
+        flex-direction: column;
+      }
+      
+      .btn {
+        padding: 16px 32px;
+        margin: 40px 0 0;
+        background: white;
+        max-width: 200px;
+        white-space: nowrap;
+        overflow: hidden;
+        text-overflow: ellipsis;
+        border-radius: 4px;
+        border: 2px solid rgba(0,0,0,0.2);
+        text-align: center;
+      }
+      
+      .btn:hover {
+        border-color: #1150EF;
+        cursor: pointer;
+      }</style>
+</head>
+<body>
+    <form action="/adminChoice/" method="post">
+        {% csrf_token %}
+    <button class="btn" style="font-family: impact;" type="submit" name="choice" value="createQuiz">Create Quiz</button>
+    
+    <button class="btn" style="font-family: 'arial black';" type="submit" name="choice" value="quizReport">Quiz Report</button>
+</form>
+</body>
+</html>
