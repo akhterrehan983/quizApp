@@ -1,3 +1,4 @@
+Note:- Mongodb and Mongodb compass should be installed in your local system before running this project.
                             Useful Urls:-
 For students:
 http://127.0.0.1:8000/home/
